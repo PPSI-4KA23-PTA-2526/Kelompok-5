@@ -1,0 +1,254 @@
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ body {
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     background: #f5f7fa;
+     min-height: 100vh;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 20px;
+ }
+
+ .login-container {
+     background: white;
+     border-radius: 10px;
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+     overflow: hidden;
+     width: 100%;
+     max-width: 450px;
+     opacity: 0;
+     animation: fadeInSmooth 0.8s ease-out forwards;
+ }
+
+ .login-logo {
+     max-width: 250px;
+     /* Atur ukuran maksimum logo */
+     height: auto;
+     display: block;
+     margin: 0 auto;
+ }
+
+
+ @keyframes fadeInSmooth {
+     from {
+         opacity: 0;
+         transform: translateY(30px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ .header-section {
+     background: linear-gradient(135deg, #4b6f32 0%, #8aad52 100%);
+     padding: 60px 40px;
+     text-align: center;
+     position: relative;
+     overflow: hidden;
+ }
+
+ .header-section::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     opacity: 0.3;
+ }
+
+ .header-title {
+     font-size: 36px;
+     font-weight: 700;
+     color: white;
+     position: relative;
+     z-index: 1;
+     letter-spacing: 2px;
+ }
+
+ .form-section {
+     padding: 50px 40px;
+ }
+
+ .form-group {
+     margin-bottom: 25px;
+ }
+
+ .form-row {
+     display: flex;
+     align-items: center;
+     gap: 20px;
+ }
+
+ .form-label {
+     color: #6b7280;
+     font-size: 14px;
+     font-weight: 500;
+     min-width: 80px;
+     text-align: left;
+ }
+
+ .form-control {
+     flex: 1;
+     padding: 12px 0;
+     border: none;
+     border-bottom: 1px solid #e5e7eb;
+     font-size: 16px;
+     background: transparent;
+     color: #374151;
+     transition: border-color 0.3s ease;
+ }
+
+ .form-control::placeholder {
+     color: #9ca3af;
+ }
+
+ .form-control:focus {
+     outline: none;
+     border-bottom-color: #4b6f32;
+ }
+
+ .form-options {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-bottom: 35px;
+     font-size: 14px;
+ }
+
+ .remember-me {
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     color: #6b7280;
+ }
+
+ .remember-me input[type="checkbox"] {
+     width: 16px;
+     height: 16px;
+     border: 1px solid #d1d5db;
+     border-radius: 3px;
+     cursor: pointer;
+ }
+
+ .forgot-password {
+     color: #6b7280;
+     text-decoration: none;
+     transition: color 0.3s ease;
+ }
+
+ .forgot-password:hover {
+     color: #4b6f32;
+ }
+
+ .btn-login {
+     width: 100%;
+     max-width: 200px;
+     padding: 15px 30px;
+     background: #4b6f32;
+     color: white;
+     border: none;
+     border-radius: 25px;
+     font-size: 16px;
+     font-weight: 600;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+     display: block;
+     margin: 0 auto;
+     position: relative;
+ }
+
+ .btn-login:hover {
+     background: #8aad52;
+ }
+
+ .btn-login:disabled {
+     opacity: 0.7;
+     cursor: not-allowed;
+ }
+
+ .btn-text {
+     display: inline-block;
+ }
+
+ .loading {
+     display: none;
+     width: 20px;
+     height: 20px;
+     border: 2px solid rgba(255, 255, 255, 0.3);
+     border-radius: 50%;
+     border-top-color: white;
+     animation: spin 1s linear infinite;
+     margin: 0 auto;
+ }
+
+ @keyframes spin {
+     to {
+         transform: rotate(360deg);
+     }
+ }
+
+ .alert {
+     padding: 12px 16px;
+     border-radius: 8px;
+     margin-bottom: 20px;
+     font-size: 14px;
+ }
+
+ .alert-danger {
+     background-color: #fee2e2;
+     border: 1px solid #fca5a5;
+     color: #dc2626;
+ }
+
+ .alert-success {
+     background-color: #dcfce7;
+     border: 1px solid #86efac;
+     color: #8aad52;
+ }
+
+ /* Responsive Design */
+ @media (max-width: 600px) {
+     .login-container {
+         margin: 10px;
+     }
+
+     .header-section {
+         padding: 40px 20px;
+     }
+
+     .header-title {
+         font-size: 28px;
+     }
+
+     .form-section {
+         padding: 30px 20px;
+     }
+
+     .form-row {
+         flex-direction: column;
+         align-items: flex-start;
+         gap: 8px;
+     }
+
+     .form-label {
+         min-width: auto;
+     }
+
+     .form-control {
+         width: 100%;
+     }
+
+     .form-options {
+         flex-direction: column;
+         gap: 15px;
+         align-items: flex-start;
+     }
+ }

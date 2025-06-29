@@ -1,0 +1,120 @@
+[2025-05-15 06:32:38] POST data received: Array
+(
+    [total] => 90725
+    [items] => [{"id":"2","name":"Teh Gardoe","price":20000,"img":"image/teh gardoe.png","quantity":1},{"id":"3","name":"Teh Tongtji","price":33725,"img":"image/teh tongtji.png","quantity":1},{"id":"4","name":"Teh Dandang Merah","price":37000,"img":"image/teh dandangm.png","quantity":1}]
+    [name] => adw
+    [email] => awd
+    [phone] => 21413
+)
+
+[2025-05-15 06:32:38] Total: 90725
+[2025-05-15 06:32:38] Items JSON: [{"id":"2","name":"Teh Gardoe","price":20000,"img":"image/teh gardoe.png","quantity":1},{"id":"3","name":"Teh Tongtji","price":33725,"img":"image/teh tongtji.png","quantity":1},{"id":"4","name":"Teh Dandang Merah","price":37000,"img":"image/teh dandangm.png","quantity":1}]
+[2025-05-15 06:32:38] Name: adw
+[2025-05-15 06:32:38] Email: awd
+[2025-05-15 06:32:38] Phone: 21413
+[2025-05-15 06:32:38] Sending parameters to Midtrans: Array
+(
+    [transaction_details] => Array
+        (
+            [order_id] => TEHSOLO-1747290758
+            [gross_amount] => 90725
+        )
+
+    [customer_details] => Array
+        (
+            [first_name] => adw
+            [email] => awd
+            [phone] => 21413
+        )
+
+    [item_details] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 2
+                    [price] => 20000
+                    [quantity] => 1
+                    [name] => Teh Gardoe
+                )
+
+            [1] => Array
+                (
+                    [id] => 3
+                    [price] => 33725
+                    [quantity] => 1
+                    [name] => Teh Tongtji
+                )
+
+            [2] => Array
+                (
+                    [id] => 4
+                    [price] => 37000
+                    [quantity] => 1
+                    [name] => Teh Dandang Merah
+                )
+
+        )
+
+)
+
+[2025-05-15 06:32:39] Error: Midtrans API is returning API error. HTTP status code: 401 API response: {"error_messages":["Access denied due to unauthorized transaction, please check client or server key","Visit https://docs.midtrans.com/reference/backend-integration for more details"]}
+[2025-05-15 06:43:43] POST data received: Array
+(
+    [total] => 90725
+    [items] => [{"id":"2","name":"Teh Gardoe","price":20000,"img":"image/teh gardoe.png","quantity":1},{"id":"3","name":"Teh Tongtji","price":33725,"img":"image/teh tongtji.png","quantity":1},{"id":"4","name":"Teh Dandang Merah","price":37000,"img":"image/teh dandangm.png","quantity":1}]
+    [name] => adw
+    [email] => awd
+    [phone] => 21413
+)
+
+[2025-05-15 06:43:43] Total: 90725
+[2025-05-15 06:43:43] Items JSON: [{"id":"2","name":"Teh Gardoe","price":20000,"img":"image/teh gardoe.png","quantity":1},{"id":"3","name":"Teh Tongtji","price":33725,"img":"image/teh tongtji.png","quantity":1},{"id":"4","name":"Teh Dandang Merah","price":37000,"img":"image/teh dandangm.png","quantity":1}]
+[2025-05-15 06:43:43] Name: adw
+[2025-05-15 06:43:43] Email: awd
+[2025-05-15 06:43:43] Phone: 21413
+[2025-05-15 06:43:43] Sending parameters to Midtrans: Array
+(
+    [transaction_details] => Array
+        (
+            [order_id] => TEHSOLO-1747291423
+            [gross_amount] => 90725
+        )
+
+    [customer_details] => Array
+        (
+            [first_name] => adw
+            [email] => awd
+            [phone] => 21413
+        )
+
+    [item_details] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 2
+                    [price] => 20000
+                    [quantity] => 1
+                    [name] => Teh Gardoe
+                )
+
+            [1] => Array
+                (
+                    [id] => 3
+                    [price] => 33725
+                    [quantity] => 1
+                    [name] => Teh Tongtji
+                )
+
+            [2] => Array
+                (
+                    [id] => 4
+                    [price] => 37000
+                    [quantity] => 1
+                    [name] => Teh Dandang Merah
+                )
+
+        )
+
+)
+
+[2025-05-15 06:43:44] Error: Midtrans API is returning API error. HTTP status code: 401 API response: {"error_messages":["Access denied due to unauthorized transaction, please check client or server key","Visit https://docs.midtrans.com/reference/backend-integration for more details"]}
