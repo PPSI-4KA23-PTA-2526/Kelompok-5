@@ -20,6 +20,7 @@ class OrderItem extends Model
         'price' => 'decimal:2'
     ];
 
+    // Fix the relationship - should reference 'id' not 'order_id'
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -28,5 +29,11 @@ class OrderItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    // Add accessor for product name
+    public function getProductNameAttribute()
+    {
+        return $this->product ? $this->product->name : 'Product Not Found';
     }
 }

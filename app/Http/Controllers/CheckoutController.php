@@ -9,6 +9,7 @@ use Midtrans\Snap;
 use Midtrans\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Models\OrderItem;
 
 class CheckoutController extends Controller
 {
@@ -74,9 +75,19 @@ class CheckoutController extends Controller
                     'subtotal' => $validated['subtotal'],
                     'shipping_cost' => $validated['shipping_cost'],
                     'total_amount' => $validated['total'],
-                    'status' => Order::STATUS_PENDING,
-                    'payment_status' => Order::PAYMENT_PENDING
+                    'status' => 'Menunggu Pembayaran',  // Sesuai enum database
+                    'payment_status' => 'pending'
                 ]);
+
+                foreach ($validated['items'] as $item) {
+                    OrderItem::create([
+                        'order_id' => $order->id, // ✅ Benar: gunakan ID dari tabel orders
+                        'product_id' => $item['id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                    ]);
+                }
+
 
                 Log::info('✅ Order created successfully:', [
                     'order_id' => $orderId,
@@ -172,7 +183,7 @@ class CheckoutController extends Controller
                 'errors' => $e->errors(),
                 'request' => $request->all()
             ]);
-            
+
             return response()->json([
                 'success' => false,
                 'error' => 'Data tidak valid',
@@ -186,7 +197,7 @@ class CheckoutController extends Controller
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return response()->json([
                 'success' => false,
                 'error' => 'Terjadi kesalahan server: ' . $e->getMessage()

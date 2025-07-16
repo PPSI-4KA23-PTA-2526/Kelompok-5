@@ -366,10 +366,9 @@
         <!-- Header -->
         <div class="header">
             <h1>
-                <i class="fas fa-leaf tea-icon"></i>
                 Teh Tarhadi
             </h1>
-            <p>Checkout Pesanan - Teh Berkualitas Terbaik</p>
+            <p>Silahkan Mengisi Data Informasi Pelanggan Dengan Lengkap</p>
         </div>
 
         <!-- Back Button -->
@@ -383,7 +382,6 @@
             <!-- Customer Form -->
             <div class="checkout-section">
                 <h2 class="section-title">
-                    <i class="fas fa-user"></i>
                     Informasi Pelanggan
                 </h2>
 
@@ -748,13 +746,13 @@
                         console.log('✅ Payment success:', result);
                         alert("Pembayaran berhasil! Terima kasih atas pesanan Anda.");
                         localStorage.removeItem(cartKey);
-                        window.location.href = "/statuspesanan";
+                        window.location.href = "{{ route('user.orders.index') }}";
                     },
                     onPending: function (result) {
                         console.log('⏳ Payment pending:', result);
                         alert("Transaksi sedang diproses. Silakan selesaikan pembayaran Anda.");
                         localStorage.removeItem(cartKey);
-                        window.location.href = "/statuspesanan";
+                        window.location.href = "{{ route('user.orders.index') }}";
                     },
                     onError: function (result) {
                         console.error('❌ Payment error:', result);

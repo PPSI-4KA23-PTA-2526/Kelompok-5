@@ -46,16 +46,6 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h5>Total Revenue</h5>
-            </div>
-            <div class="card-body">
-                <h3>${{ number_format($stats['total_revenue'], 2) }}</h3>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
                 <h5>Recent Orders</h5>
             </div>
             <div class="card-body">

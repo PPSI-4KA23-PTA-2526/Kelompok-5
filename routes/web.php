@@ -9,19 +9,9 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\MidtransWebhookController;
+use App\Http\Controllers\User\OrderController as UserOrderController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Webhook Routes (PRIORITY - Harus di paling atas)
-|--------------------------------------------------------------------------
-*/
-
-// Webhook route tanpa middleware apapun
-Route::post('/midtrans/webhook', [MidtransWebhookController::class, 'handle'])
-    ->withoutMiddleware(['web', 'auth', 'verified'])
-    ->name('midtrans.webhook');
-
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Tidak perlu login)
@@ -57,13 +47,16 @@ Route::get('/checkout', function () {
 
 Route::post('/checkout', [CheckoutController::class, 'processPayment'])->name('checkout.process');
 
-// Status pesanan
-Route::get('/statuspesanan', function () {
-    return view('statuspesanan');
-})->name('statuspesanan');
-
 // Kontak form
 Route::post('/kontak/kirim', [KontakController::class, 'kirim'])->name('kontak.kirim');
+
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+*/
+
+require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -72,13 +65,31 @@ Route::post('/kontak/kirim', [KontakController::class, 'kirim'])->name('kontak.k
 */
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // User Order routes - PERBAIKAN: Typo di parameter
+    Route::get('/my-orders', [UserOrderController::class, 'index'])->name('user.orders.index');
+    Route::get('/my-orders/{order}', [UserOrderController::class, 'show'])->name('user.orders.show');
+    Route::patch('/my-orders/{order}/cancel', [UserOrderController::class, 'cancel'])->name('user.orders.cancel');
+    Route::patch('/my-orders/{order}/confirm-received', [UserOrderController::class, 'confirmReceived'])->name('user.orders.confirm-received');
+    
+    // Payment routes
+    Route::get('/payment/{orderId}', [PaymentController::class, 'show'])->name('payment.show');
+    Route::post('/payment/{orderId}/process', [PaymentController::class, 'process'])->name('payment.process');
+    
+    // Products route (untuk user yang login)
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+    // web.php
+    Route::post('/my-orders/{order}/pay', [UserOrderController::class, 'payOrder'])->name('user.orders.pay');
+
 });
 
 /*
@@ -92,13 +103,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('products', ProductController::class);
     Route::resource('users', UserController::class);
     Route::resource('orders', OrderController::class);
+
+    // Routes yang sudah ada
     Route::get('/orders/{order}/sync-payment', [OrderController::class, 'syncPaymentStatus'])->name('orders.syncPayment');
+
+    // Routes untuk update status manual
+    Route::post('/orders/{order}/update-payment-status', [OrderController::class, 'updatePaymentStatus'])
+        ->name('orders.updatePaymentStatus');
+    Route::post('/orders/{order}/update-order-status', [OrderController::class, 'updateOrderStatus'])
+        ->name('orders.updateOrderStatus');
+    //Status order
+    Route::post('/orders/{order}/update-status', [OrderController::class, 'updateStatusAjax'])
+        ->name('orders.updateStatus');
 });
-
-/*
-|--------------------------------------------------------------------------
-| Authentication Routes
-|--------------------------------------------------------------------------
-*/
-
-require __DIR__ . '/auth.php';

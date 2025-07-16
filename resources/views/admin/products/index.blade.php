@@ -43,7 +43,6 @@
                     </span>
                 </td>
                 <td>
-                    <a href="{{ route('admin.products.show', $product) }}" class="btn btn-sm btn-info">View</a>
                     <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
                         @csrf
