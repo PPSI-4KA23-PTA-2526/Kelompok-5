@@ -7,9 +7,9 @@
 }
 
 :root {
-  --primary-color: #4b6f32;
+  --primary-color: #BC5DFF;
   --secondary-color: #8aad52;
-  --accent-color: #d4a22c;
+  --accent-color: #c081ec;
   --dark-color: #333333;
   --light-color: #f4f4f4;
   --white-color: #ffffff;
@@ -38,7 +38,7 @@ body {
 }
 
 img {
-  max-width: 100%;
+  max-width: 50%;
   height: auto;
   display: block;
 }
@@ -152,15 +152,15 @@ nav ul {
 }
 
 nav ul li a {
-  color: var(--dark-color);
+  color: var(--primary-color);
   font-weight: 500;
   transition: var(--transition);
   padding: 5px 10px;
 }
 
 nav ul li a:hover {
-  color: var(--primary-color);
-  border-bottom: 2px solid var(--primary-color);
+  color: var(--light-color);
+  border-bottom: 2px solid var(--light-color);
 }
 
 .mobile-menu-toggle {
@@ -255,7 +255,7 @@ nav ul li a:hover {
 
 .fitur-item:hover {
   transform: translateY(-10px);
-  box-shadow: 0 10px 20px #4b6f32;
+  box-shadow: 0 10px 20px #BC5DFF;
 }
 
 .fitur-item i {
@@ -558,7 +558,7 @@ nav ul li a:hover {
 
 .testimonial-item:hover {
   transform: translateY(-10px);
-  box-shadow: 0 10px 20px #4b6f32;
+  box-shadow: 0 10px 20px #BC5DFF;
 }
 
 .testimonial-text {

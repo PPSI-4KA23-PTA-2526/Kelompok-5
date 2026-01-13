@@ -56,7 +56,7 @@
 
                 <div style="text-align: center; margin-top: 30px; font-size: 14px; color: #6b7280;">
                     Belum punya akun?
-                    <a href="{{ route('register') }}" style="color: #4b6f32; font-weight: bold; text-decoration: none;">
+                    <a href="{{ route('register') }}" style="color: #BC5DFF; font-weight: bold; text-decoration: none;">
                         Daftar sekarang
                     </a>
                 </div>

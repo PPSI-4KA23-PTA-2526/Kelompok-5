@@ -52,7 +52,7 @@
 
                 <div style="text-align: center; margin-top: 30px; font-size: 14px; color: #6b7280;">
                     Ingat password?
-                    <a href="{{ route('login') }}" style="color: #4b6f32; font-weight: bold; text-decoration: none;">
+                    <a href="{{ route('login') }}" style="color: #BC5DFF; font-weight: bold; text-decoration: none;">
                         Kembali login
                     </a>
                 </div>

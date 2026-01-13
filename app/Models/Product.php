@@ -22,4 +22,12 @@ class Product extends Model
         'price' => 'decimal:2',
         'is_active' => 'boolean'
     ];
+
+    /**
+     * Relasi ke OrderItems
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

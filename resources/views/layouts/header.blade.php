@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teh Solo Kakek Tarhadi - Warisan Rasa Asli Solo</title>
+  <title>Catering Mama Zel - Warisan Rasa Asli Solo</title>
   <link rel="stylesheet" href="css/style.css">
   <!-- AlpineJS -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -40,7 +40,7 @@
   <header>
     <div class="container">
       <a href="/">
-        <img src="image/logo1.png" alt="Logo Teh Solo Kakek Tarhadi" width="200">
+        <img src="image/logo1.png" alt="Logo Catering Mama Zel" width="200">
       </a>
       <nav>
         <ul>
@@ -52,11 +52,11 @@
           
           <!-- Profile -->
           <li class="profile-icon" id="profileIcon">
-            <i class="fas fa-user"></i>
+            <i class="fa-solid fa-user" style="color: #BC5DFF;"></i>
             <div class="profile-dropdown" id="profileDropdown">
               <div class="profile-menu">
                 @auth
-                  <a href="/profile" class="profile-link"><i class="fas fa-user"></i> My Profile</a>
+                  <a href="/profile" class="profile-link"><i class="fa-solid fa-user" style="color: #BC5DFF;"></i> My Profile</a>
                   <a href="/settings" class="profile-link"><i class="fas fa-cog"></i> Settings</a>
                   <a href="{{ route('logout') }}" class="profile-link"
                      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -78,7 +78,7 @@
 
           <!-- Cart -->
           <li class="cart-icon" id="cartIcon">
-            <i class="fas fa-shopping-cart"></i>
+            <i class="fas fa-shopping-cart" style="color: #BC5DFF;"></i>
             <span class="cart-count" id="cartCount">0</span>
             <div class="cart-dropdown" id="cartDropdown">
               <div class="cart-empty" id="cartEmpty">
@@ -114,7 +114,7 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-logo">
-          <h2>Teh Solo Kakek Tarhadi</h2>
+          <h2>Catering Mama Zel</h2>
           <p>Berdiri Sejak 2023</p>
         </div>
         <div class="footer-links">
@@ -146,7 +146,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 Teh Solo Kakek Tarhadi. Hak Cipta Dilindungi.</p>
+        <p>&copy; 2025 Catering Mama Zel. Hak Cipta Dilindungi.</p>
       </div>
     </div>
   </footer>

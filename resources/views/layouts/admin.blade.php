@@ -143,7 +143,7 @@
             <div class="navbar-nav ms-auto">
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user"></i> Admin
+                        <i class="fa-solid fa-user" style="color: #BC5DFF;"></i> Admin
                     </a>
                     <ul class="dropdown-menu">
                         <li>

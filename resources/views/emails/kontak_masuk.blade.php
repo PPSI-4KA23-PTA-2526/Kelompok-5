@@ -23,7 +23,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #4b6f32, #2d8f2d);
+            background: linear-gradient(135deg, #BC5DFF, #2d8f2d);
             padding: 30px 20px;
             text-align: center;
             position: relative;
@@ -138,7 +138,7 @@
         }
 
         .cta-section {
-            background: linear-gradient(135deg, #4b6f32, #1a5d1a);
+            background: linear-gradient(135deg, #BC5DFF, #1a5d1a);
             color: white;
             padding: 25px;
             text-align: center;
@@ -148,7 +148,7 @@
         .cta-button {
             display: inline-block;
             background-color: white;
-            color: #4b6f32;
+            color: #BC5DFF;
             padding: 12px 30px;
             border-radius: 25px;
             text-decoration: none;

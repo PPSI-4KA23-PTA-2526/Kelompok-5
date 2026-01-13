@@ -40,7 +40,7 @@
         }
 
         .header h1 {
-            color: #2d5016;
+            color: #c081ec;
             font-size: 2.5rem;
             margin-bottom: 10px;
             display: flex;
@@ -51,7 +51,7 @@
 
         .header .tea-icon {
             font-size: 2rem;
-            color: #6b8e23;
+            color: #BC5DFF;
         }
 
         .header p {
@@ -73,11 +73,11 @@
         }
 
         .section-title {
-            color: #2d5016;
+            color: #c081ec;
             font-size: 1.8rem;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 3px solid #6b8e23;
+            border-bottom: 3px solid #BC5DFF;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -106,13 +106,13 @@
 
         .form-control:focus {
             outline: none;
-            border-color: #6b8e23;
+            border-color: #BC5DFF;
             background: white;
             box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.1);
         }
 
         .form-control:valid {
-            border-color: #28a745;
+            border-color: #c081ec;
         }
 
         textarea.form-control {
@@ -127,7 +127,7 @@
         }
 
         .order-summary {
-            background: linear-gradient(135deg, #6b8e23 0%, #8fbc8f 100%);
+            background: linear-gradient(135deg, #BC5DFF 0%, #c081ec 100%);
             color: white;
             padding: 25px;
             margin-bottom: 20px;
@@ -283,7 +283,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            color: #6b8e23;
+            color: #BC5DFF;
             text-decoration: none;
             font-weight: 600;
             margin-bottom: 20px;
@@ -324,7 +324,7 @@
             width: 40px;
             height: 40px;
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #6b8e23;
+            border-top: 4px solid #BC5DFF;
             animation: spin 1s linear infinite;
             margin: 0 auto 15px;
         }
@@ -366,7 +366,7 @@
         <!-- Header -->
         <div class="header">
             <h1>
-                Teh Tarhadi
+                Catering Mamah Zel
             </h1>
             <p>Silahkan Mengisi Data Informasi Pelanggan Dengan Lengkap</p>
         </div>
@@ -505,7 +505,7 @@
 
         <!-- Empty Cart Message -->
         <div class="empty-cart" id="empty-cart" style="display: none;">
-            <i class="fas fa-shopping-cart"></i>
+            <i class="fas fa-shopping-cart" style="color: #BC5DFF;"></i>
             <h3>Keranjang Kosong</h3>
             <p>Belum ada produk dalam keranjang belanja Anda.</p>
             <a href="/produk" class="back-button" style="margin-top: 20px;">

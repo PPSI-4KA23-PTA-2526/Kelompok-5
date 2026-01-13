@@ -15,22 +15,21 @@
             <i class="fas fa-map-marker-alt"></i>
             <div>
               <h3>Alamat</h3>
-              <p>Jl. Puskesmas No.40, RT.2/RW.6, Klp. Gading Tim., Kec. Klp. Gading, Jkt Utara, Daerah Khusus Ibukota
-                Jakarta 14240</p>
+              <p>Kebagusan Rt05/Rw03, Pasar Minggu, Jakarta Selatan</p>
             </div>
           </div>
           <div class="kontak-item">
             <i class="fas fa-phone"></i>
             <div>
               <h3>Telepon</h3>
-              <p>+62 812-9343-0440</p>
+              <p>+62 855-91111-068</p>
             </div>
           </div>
           <div class="kontak-item">
             <i class="fas fa-envelope"></i>
             <div>
               <h3>Email</h3>
-              <p>info@tehsolokakektarhadi.com</p>
+              <p>info@CateringMamaZel.com</p>
             </div>
           </div>
           <div class="kontak-item">

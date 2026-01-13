@@ -56,7 +56,7 @@
                 <!-- Invoice Header -->
                 <div class="invoice-header text-center mb-4">
                     <img src="{{ asset('image/logo1.png') }}" alt="Logo" style="height: 60px;" class="mb-2">
-                    <h2 class="text-success mb-1">TEH SOLO KAKEK TARHADI</h2>
+                    <h2 class="text-success mb-1">Catering Mama Zel</h2>
                     <p class="text-muted mb-0">Jl. Puskesmas No.40, RT.2/RW.6, Klp. Gading Tim., Kec. Klp. Gading, Jkt
                         Utara, Daerah Khusus Ibukota Jakarta 14240 | Telp: 081293430440</p>
                     <hr class="my-3">
@@ -122,7 +122,7 @@
                     <div class="col-12 text-end">
                         <p>Jakarta, {{ now()->format('d F Y') }}</p>
                         <br><br><br>
-                        <p><strong>Teh Solo Kakek Tarhadi</strong></p>
+                        <p><strong>Catering Mama Zel</strong></p>
                     </div>
                 </div>
             </div>

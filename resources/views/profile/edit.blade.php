@@ -22,7 +22,7 @@
         }
 
         .topbar {
-            background: #4b6f32;
+            background: #BC5DFF;
             padding: 15px 40px;
             display: flex;
             justify-content: space-between;
@@ -80,7 +80,7 @@
             padding: 10px 20px;
             text-decoration: none;
             background: none;
-            color: #4b6f32;
+            color: #BC5DFF;
             border: none;
             width: 100%;
             text-align: left;
@@ -118,7 +118,7 @@
 
         .form-section h2 {
             font-size: 20px;
-            color: #4b6f32;
+            color: #BC5DFF;
             margin-bottom: 20px;
             font-weight: 600;
         }
@@ -145,12 +145,12 @@
 
         .form-control:focus {
             outline: none;
-            border-color: #4b6f32;
+            border-color: #BC5DFF;
             box-shadow: 0 0 0 3px rgba(75, 111, 50, 0.1);
         }
 
         .btn-login {
-            background: #4b6f32;
+            background: #BC5DFF;
             color: white;
             border: none;
             border-radius: 25px;

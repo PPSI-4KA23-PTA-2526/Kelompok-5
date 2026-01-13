@@ -7,46 +7,51 @@
     <div class="container">
       <div class="section-title">
         <h2>Proses Pembuatan</h2>
-        <p>Bagaimana teh berkualitas tinggi kami dibuat</p>
+        <p>Bagaimana hidangan catering kami disiapkan dengan kualitas terbaik</p>
       </div>
+
       <div class="proses-timeline">
+        
         <div class="proses-item">
           <div class="proses-icon">
-            <i class="fas fa-seedling"></i>
+            <i class="fas fa-shopping-basket"></i>
           </div>
           <div class="proses-content">
-            <h3>Pemilihan Teh Tubruk Terbaik</h3>
-            <p>Kami memilih teh tubruk terbaik yang dijual di pasaran.</p>
+            <h3>Pemilihan Bahan Baku</h3>
+            <p>Kami memilih bahan makanan segar dan berkualitas dari supplier terpercaya untuk menjaga rasa dan kebersihan.</p>
           </div>
         </div>
+
         <div class="proses-item">
           <div class="proses-icon">
-            <i class="fas fa-sun"></i>
+            <i class="fas fa-utensils"></i>
           </div>
           <div class="proses-content">
-            <h3>Pemasakan</h3>
-            <p>Daun teh direbus menggunakan metode tradisional untuk mempertahankan aroma dan khasiatnya.</p>
+            <h3>Proses Memasak</h3>
+            <p>Semua hidangan dimasak oleh tim dapur berpengalaman dengan standar kebersihan dan resep khas UMKM kami.</p>
           </div>
         </div>
+
         <div class="proses-item">
           <div class="proses-icon">
-            <i class="fas fa-mortar-pestle"></i>
+            <i class="fas fa-concierge-bell"></i>
           </div>
           <div class="proses-content">
-            <h3>Pengolahan</h3>
-            <p>Teh diolah mengikuti resep dari Kakek Tarhad yang dijaga keasliannya, memastikan cita rasa yang autentik.
-            </p>
+            <h3>Quality Control</h3>
+            <p>Setiap menu diperiksa dari segi rasa, porsi, dan tampilan agar sesuai dengan standar pelayanan catering.</p>
           </div>
         </div>
+
         <div class="proses-item">
           <div class="proses-icon">
-            <i class="fas fa-box"></i>
+            <i class="fas fa-box-open"></i>
           </div>
           <div class="proses-content">
-            <h3>Pengemasan</h3>
-            <p>Teh dikemas dengan cara yang menjaga kualitas dan kesegaran aroma, siap untuk dinikmati.</p>
+            <h3>Pengemasan & Pengiriman</h3>
+            <p>Makanan dikemas secara higienis dan dikirim tepat waktu agar tetap segar saat diterima pelanggan.</p>
           </div>
         </div>
+
       </div>
     </div>
   </section>
