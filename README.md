@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -64,3 +65,17 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+=======
+# Kelompok-5
+link video WBS dan Gantchart 
+https://drive.google.com/file/d/1ia4mhWWTtWdsZH4_9dcdo_FmGUuU5e4k/view?usp=sharing
+
+link video wawancara terakhir 
+https://drive.google.com/drive/folders/1DweHKpDFEC_H2HHPfFFhrJ0GtTcBtGCu
+
+Rencana Implementasi
+https://docs.google.com/document/d/1u6hN_QMkALHHkvSSMm6wnZ61cayF6Q-qoQ37LZNuNCw/edit?usp=sharing
+
+Link Vidio UAT
+https://drive.google.com/drive/folders/1Jp3sBW0RVynfmnceNNrmNsGT_GpcJlEE?usp=sharing
+>>>>>>> 3f8c47db1ebb832e39fa1ab1a032a8a3a3fc2399
