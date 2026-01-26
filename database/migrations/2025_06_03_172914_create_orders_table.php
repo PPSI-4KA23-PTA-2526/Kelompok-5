@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('transaction_id')->nullable(); // Transaction ID dari Midtrans
             $table->json('midtrans_response')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->string(column: 'payment_method')->nullable();
             
             // Customer Information
             $table->string('customer_first_name');

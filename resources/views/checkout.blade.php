@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Checkout - Teh Tarhadi</title>
-    <!-- Gunakan satu script Midtrans dengan client key yang benar -->
+    <title>Checkout - Catering Mamah Zel</title>
+    <!-- Midtrans Snap -->
     <script src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="SB-Mid-client-K7aO5wmtnKpu8KaH"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- CSS styles tetap sama -->
     <style>
         * {
             margin: 0;
@@ -43,15 +42,6 @@
             color: #c081ec;
             font-size: 2.5rem;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .header .tea-icon {
-            font-size: 2rem;
-            color: #BC5DFF;
         }
 
         .header p {
@@ -108,7 +98,7 @@
             outline: none;
             border-color: #BC5DFF;
             background: white;
-            box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.1);
+            box-shadow: 0 0 0 3px rgba(188, 93, 255, 0.1);
         }
 
         .form-control:valid {
@@ -206,38 +196,50 @@
         .payment-method {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             padding: 15px;
             background: rgba(255, 255, 255, 0.1);
             margin-bottom: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
 
         .payment-method:hover {
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .payment-method input[type="radio"] {
-            display: none;
+        .payment-method.selected {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
-        .payment-method .radio-custom {
+        .payment-method input[type="radio"] {
             width: 20px;
             height: 20px;
-            border: 2px solid white;
-            position: relative;
+            cursor: pointer;
         }
 
-        .payment-method input[type="radio"]:checked+.radio-custom::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .payment-method-content {
+            flex: 1;
+        }
+
+        .payment-method-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 3px;
+        }
+
+        .payment-method-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .payment-icon {
+            font-size: 1.3rem;
         }
 
         .pay-button {
@@ -291,7 +293,7 @@
         }
 
         .back-button:hover {
-            color: #2d5016;
+            color: #9547cc;
         }
 
         .empty-cart {
@@ -309,9 +311,10 @@
         .error-message {
             background-color: #ffebee;
             color: #c62828;
-            padding: 10px;
+            padding: 15px;
             margin-bottom: 15px;
             border: 1px solid #ef5350;
+            border-radius: 5px;
         }
 
         .loading {
@@ -325,18 +328,14 @@
             height: 40px;
             border: 4px solid #f3f3f3;
             border-top: 4px solid #BC5DFF;
+            border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 15px;
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
@@ -358,16 +357,13 @@
             }
         }
     </style>
-
 </head>
 
 <body data-user-id="{{ auth()->id() ?? 'guest' }}">
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>
-                Catering Mamah Zel
-            </h1>
+            <h1>Catering Mamah Zel</h1>
             <p>Silahkan Mengisi Data Informasi Pelanggan Dengan Lengkap</p>
         </div>
 
@@ -382,10 +378,10 @@
             <!-- Customer Form -->
             <div class="checkout-section">
                 <h2 class="section-title">
+                    <i class="fas fa-user"></i>
                     Informasi Pelanggan
                 </h2>
 
-                <!-- PERBAIKAN: Tambahkan div untuk menampilkan error -->
                 <div id="error-container"></div>
 
                 <form id="checkout-form">
@@ -452,15 +448,12 @@
                 </form>
             </div>
 
-
             <!-- Order Summary -->
             <div class="checkout-section">
                 <div class="order-summary">
                     <h3><i class="fas fa-shopping-bag"></i> Ringkasan Pesanan</h3>
 
-                    <div id="checkout-items">
-                        <!-- Items akan dimuat via JavaScript -->
-                    </div>
+                    <div id="checkout-items"></div>
 
                     <div class="total-section">
                         <div class="total-row">
@@ -479,31 +472,56 @@
 
                     <div class="payment-methods">
                         <h4 style="margin-bottom: 15px;"><i class="fas fa-credit-card"></i> Metode Pembayaran</h4>
-                        <label class="payment-method">
-                            <input type="radio" name="payment" value="all" checked>
-                            <div class="radio-custom"></div>
-                            <span>Metode Pembayaran (Bank Transfer BCA, Qris Gopay), ShopePay, Dana</span>
+                        
+                        <!-- Midtrans Payment -->
+                        <label class="payment-method selected" data-payment="midtrans">
+                            <input type="radio" name="payment" value="midtrans" checked>
+                            <i class="fas fa-credit-card payment-icon"></i>
+                            <div class="payment-method-content">
+                                <div class="payment-method-title">Payment Gateway</div>
+                                <div class="payment-method-desc">Transfer Bank, E-Wallet, Kartu Kredit</div>
+                            </div>
+                        </label>
+
+                        <!-- M-Banking -->
+                        <label class="payment-method" data-payment="mbanking">
+                            <input type="radio" name="payment" value="mbanking">
+                            <i class="fas fa-mobile-alt payment-icon"></i>
+                            <div class="payment-method-content">
+                                <div class="payment-method-title">M-Banking</div>
+                                <div class="payment-method-desc">Transfer via Mobile Banking</div>
+                            </div>
+                        </label>
+
+                        <!-- COD -->
+                        <label class="payment-method" data-payment="cod">
+                            <input type="radio" name="payment" value="cod">
+                            <i class="fas fa-money-bill-wave payment-icon"></i>
+                            <div class="payment-method-content">
+                                <div class="payment-method-title">Bayar di Tempat (COD)</div>
+                                <div class="payment-method-desc">Bayar langsung ditoko dan mengambil pesanannya</div>
+                            </div>
                         </label>
                     </div>
 
                     <button type="button" id="pay-button" class="pay-button">
-                        <i class="fas fa-lock"></i> Bayar Sekarang
+                        <i class="fas fa-lock"></i> Proses Pesanan
                     </button>
 
                     <div class="security-info">
                         <i class="fas fa-shield-alt"></i>
-                        <span>Pembayaran aman dengan Midtrans</span>
+                        <span>Transaksi Aman & Terpercaya</span>
                     </div>
                 </div>
 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <p>Memproses pembayaran...</p>
+                    <p>Memproses pesanan...</p>
                 </div>
             </div>
         </div>
 
-        <!-- Empty Cart Message -->
+        <!-- Empty Cart -->
         <div class="empty-cart" id="empty-cart" style="display: none;">
             <i class="fas fa-shopping-cart" style="color: #BC5DFF;"></i>
             <h3>Keranjang Kosong</h3>
@@ -516,7 +534,27 @@
     </div>
 
     <script>
-        // Fungsi untuk menampilkan error
+        // Handle payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input[type="radio"]').checked = true;
+                
+                // Update button text based on payment method
+                const paymentType = this.dataset.payment;
+                const button = document.getElementById('pay-button');
+                
+                if (paymentType === 'cod') {
+                    button.innerHTML = '<i class="fas fa-check"></i> Konfirmasi Pesanan COD';
+                } else if (paymentType === 'mbanking') {
+                    button.innerHTML = '<i class="fas fa-mobile-alt"></i> Lanjut ke M-Banking';
+                } else {
+                    button.innerHTML = '<i class="fas fa-lock"></i> Bayar Sekarang';
+                }
+            });
+        });
+
         function showError(message) {
             const errorContainer = document.getElementById('error-container');
             errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
@@ -525,7 +563,6 @@
             }, 5000);
         }
 
-        // Fungsi untuk validasi form
         function validateForm() {
             const requiredFields = [
                 'first-name', 'last-name', 'email', 'phone',
@@ -546,7 +583,6 @@
             return isValid;
         }
 
-        // Load cart data
         function loadCheckoutData() {
             const userId = document.body.dataset?.userId || 'guest';
             const cartKey = `cart_${userId}`;
@@ -554,14 +590,12 @@
             return savedCart ? JSON.parse(savedCart) : [];
         }
 
-        // Display checkout items
         function displayCheckoutItems() {
             const cart = loadCheckoutData();
             const itemsContainer = document.getElementById('checkout-items');
             const subtotalElement = document.getElementById('subtotal');
             const totalElement = document.getElementById('total-amount');
 
-            // Check if cart is empty
             if (!cart || cart.length === 0) {
                 document.querySelector('.checkout-grid').style.display = 'none';
                 document.getElementById('empty-cart').style.display = 'block';
@@ -595,11 +629,10 @@
             totalElement.textContent = `Rp ${total.toLocaleString()}`;
         }
 
-        // Perbaikan pada bagian Handle payment - bagian formatting items
-        document.getElementById('pay-button').addEventListener('click', async function () {
-            console.log('🔄 Payment button clicked');
+        // Handle payment button click
+        document.getElementById('pay-button').addEventListener('click', async function() {
+            console.log('Payment button clicked');
 
-            // Validasi form sebelum submit
             if (!validateForm()) {
                 showError('Mohon lengkapi semua field yang wajib diisi!');
                 return;
@@ -614,13 +647,14 @@
                 return;
             }
 
-            // Disable button dan show loading
+            // Get selected payment method
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
             this.disabled = true;
             this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
             document.getElementById('loading').style.display = 'block';
 
             try {
-                // Ambil data form pelanggan
                 const customer = {
                     first_name: document.getElementById('first-name').value.trim(),
                     last_name: document.getElementById('last-name').value.trim(),
@@ -633,30 +667,20 @@
                     notes: document.getElementById('notes').value.trim(),
                 };
 
-                // Hitung dengan benar
                 const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 const shipping = 10000;
                 const total = subtotal + shipping;
 
-                // PERBAIKAN: Format items sesuai standar Midtrans
-                const formattedItems = cart.map((item, index) => {
-                    // Pastikan nama produk tidak kosong dan tidak terlalu panjang
-                    const itemName = (item.name || 'Produk Teh').substring(0, 50);
-                    const itemPrice = parseInt(item.price) || 0;
-                    const itemQuantity = parseInt(item.quantity) || 1;
+                const formattedItems = cart.map((item, index) => ({
+                    id: item.id || `ITEM_${index + 1}_${Date.now()}`,
+                    price: parseInt(item.price) || 0,
+                    quantity: parseInt(item.quantity) || 1,
+                    name: (item.name || 'Produk').substring(0, 50),
+                    brand: "Catering Mamah Zel",
+                    category: "Makanan",
+                    merchant_name: "Catering Mamah Zel"
+                }));
 
-                    return {
-                        id: item.id || `TEH_${index + 1}_${Date.now()}`, // ID yang unik dan deskriptif
-                        price: itemPrice, // Harga per unit
-                        quantity: itemQuantity, // Kuantitas
-                        name: itemName, // Nama produk (maksimal 50 karakter)
-                        brand: "Teh Tarhadi", // Brand produk
-                        category: "Minuman", // Kategori produk
-                        merchant_name: "Teh Tarhadi" // Nama merchant
-                    };
-                });
-
-                // PERBAIKAN: Tambahkan item shipping sebagai item terpisah
                 const itemDetails = [
                     ...formattedItems,
                     {
@@ -668,26 +692,22 @@
                     }
                 ];
 
-                console.log('📦 Formatted items:', formattedItems);
-                console.log('📦 Item details with shipping:', itemDetails);
-
                 const dataToSend = {
                     customer: customer,
-                    items: formattedItems, // Items untuk backend processing
-                    item_details: itemDetails, // Item details untuk Midtrans
+                    items: formattedItems,
+                    item_details: itemDetails,
                     subtotal: parseInt(subtotal),
                     shipping_cost: parseInt(shipping),
                     total: parseInt(total),
-                    // TAMBAHAN: Informasi transaksi
+                    payment_method: paymentMethod,
                     transaction_details: {
-                        order_id: `TEH_ORDER_${Date.now()}`,
+                        order_id: `ORDER_${Date.now()}`,
                         gross_amount: parseInt(total)
                     }
                 };
 
-                console.log('📤 Data yang akan dikirim:', dataToSend);
+                console.log('Data to send:', dataToSend);
 
-                // Kirim request ke server
                 const response = await fetch('/checkout', {
                     method: 'POST',
                     headers: {
@@ -698,23 +718,19 @@
                     body: JSON.stringify(dataToSend)
                 });
 
-                console.log('📥 Response status:', response.status);
-
-                // Parse response
-                let result;
                 const contentType = response.headers.get('content-type');
+                let result;
 
                 if (contentType && contentType.includes('application/json')) {
                     result = await response.json();
                 } else {
                     const textResponse = await response.text();
-                    console.error('❌ Non-JSON response:', textResponse);
+                    console.error('Non-JSON response:', textResponse);
                     throw new Error('Server mengembalikan response yang tidak valid');
                 }
 
-                console.log('📥 Response dari server:', result);
+                console.log('Response from server:', result);
 
-                // Handle error response
                 if (!response.ok) {
                     if (result.validation_errors) {
                         let errorMessage = 'Data tidak valid:\n';
@@ -731,85 +747,75 @@
                     throw new Error(result.error || 'Terjadi kesalahan pada server');
                 }
 
-                if (!result.snap_token) {
-                    throw new Error('Tidak dapat memperoleh token pembayaran dari server');
-                }
-
-                console.log('✅ Snap token diterima, membuka Midtrans...');
-
-                if (typeof window.snap === 'undefined') {
-                    throw new Error('Midtrans Snap tidak tersedia. Mohon refresh halaman.');
-                }
-
-                window.snap.pay(result.snap_token, {
-                    onSuccess: function (result) {
-                        console.log('✅ Payment success:', result);
-                        alert("Pembayaran berhasil! Terima kasih atas pesanan Anda.");
-                        localStorage.removeItem(cartKey);
-                        window.location.href = "{{ route('user.orders.index') }}";
-                    },
-                    onPending: function (result) {
-                        console.log('⏳ Payment pending:', result);
-                        alert("Transaksi sedang diproses. Silakan selesaikan pembayaran Anda.");
-                        localStorage.removeItem(cartKey);
-                        window.location.href = "{{ route('user.orders.index') }}";
-                    },
-                    onError: function (result) {
-                        console.error('❌ Payment error:', result);
-                        alert("Pembayaran gagal. Silakan coba lagi.");
-                    },
-                    onClose: function () {
-                        console.log('❌ Payment popup closed');
-                        alert("Pembayaran dibatalkan. Pesanan Anda masih tersimpan.");
+                // Handle different payment methods
+                if (paymentMethod === 'cod') {
+                    // COD - langsung redirect
+                    alert('Pesanan COD berhasil dibuat! Silakan siapkan uang tunai saat pesanan tiba.');
+                    localStorage.removeItem(cartKey);
+                    window.location.href = "{{ route('user.orders.index') }}";
+                } else if (paymentMethod === 'mbanking') {
+                    // M-Banking - tampilkan instruksi transfer
+                    alert('Silakan transfer ke rekening berikut:\nBCA: 1234567890\nAtas Nama: Catering Mamah Zel\nJumlah: Rp ' + total.toLocaleString());
+                    localStorage.removeItem(cartKey);
+                    window.location.href = "{{ route('user.orders.index') }}";
+                } else {
+                    // Midtrans payment
+                    if (!result.snap_token) {
+                        throw new Error('Tidak dapat memperoleh token pembayaran dari server');
                     }
-                });
+
+                    if (typeof window.snap === 'undefined') {
+                        throw new Error('Midtrans Snap tidak tersedia. Mohon refresh halaman.');
+                    }
+
+                    window.snap.pay(result.snap_token, {
+                        onSuccess: function(result) {
+                            console.log('Payment success:', result);
+                            alert("Pembayaran berhasil! Terima kasih atas pesanan Anda.");
+                            localStorage.removeItem(cartKey);
+                            window.location.href = "{{ route('user.orders.index') }}";
+                        },
+                        onPending: function(result) {
+                            console.log('Payment pending:', result);
+                            alert("Transaksi sedang diproses. Silakan selesaikan pembayaran Anda.");
+                            localStorage.removeItem(cartKey);
+                            window.location.href = "{{ route('user.orders.index') }}";
+                        },
+                        onError: function(result) {
+                            console.error('Payment error:', result);
+                            alert("Pembayaran gagal. Silakan coba lagi.");
+                        },
+                        onClose: function() {
+                            console.log('Payment popup closed');
+                            alert("Pembayaran dibatalkan. Pesanan Anda masih tersimpan.");
+                        }
+                    });
+                }
 
             } catch (error) {
-                console.error('❌ Checkout Error:', error);
+                console.error('Checkout Error:', error);
                 showError(error.message || "Gagal memproses pembayaran. Silakan coba lagi.");
             } finally {
                 this.disabled = false;
-                this.innerHTML = '<i class="fas fa-lock"></i> Bayar Sekarang';
+                const paymentType = document.querySelector('input[name="payment"]:checked').value;
+                if (paymentType === 'cod') {
+                    this.innerHTML = '<i class="fas fa-check"></i> Konfirmasi Pesanan COD';
+                } else if (paymentType === 'mbanking') {
+                    this.innerHTML = '<i class="fas fa-mobile-alt"></i> Lanjut ke M-Banking';
+                } else {
+                    this.innerHTML = '<i class="fas fa-lock"></i> Bayar Sekarang';
+                }
                 document.getElementById('loading').style.display = 'none';
             }
         });
 
-        // TAMBAHAN: Fungsi untuk debug cart data
-        function debugCartData() {
-            const userId = document.body.dataset.userId || 'guest';
-            const cartKey = `cart_${userId}`;
-            const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+        document.addEventListener('DOMContentLoaded', function() {
+            displayCheckoutItems();
 
-            console.log('🛒 Current cart data:', cart);
-
-            if (cart.length > 0) {
-                console.log('📋 Cart structure analysis:');
-                cart.forEach((item, index) => {
-                    console.log(`Item ${index + 1}:`, {
-                        id: item.id,
-                        name: item.name,
-                        price: item.price,
-                        quantity: item.quantity,
-                        img: item.img
-                    });
-                });
-            }
-
-            return cart;
-        }
-
-        // Panggil fungsi debug saat halaman load
-        document.addEventListener('DOMContentLoaded', function () {
-            displayCheckoutItems(); // Tampilkan items checkout
-            debugCartData(); // Debug cart data
-
-            // Check if Midtrans Snap is loaded
             if (typeof window.snap === 'undefined') {
-                console.error('Midtrans Snap tidak dimuat. Periksa client key dan koneksi internet.');
-                showError('Error: Midtrans Snap tidak dapat dimuat. Mohon refresh halaman.');
+                console.warn('Midtrans Snap tidak dimuat. Payment gateway mungkin tidak tersedia.');
             }
         });
     </script>
 </body>
-
 </html>

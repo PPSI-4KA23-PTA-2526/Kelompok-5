@@ -9,6 +9,7 @@ use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -29,6 +30,156 @@ class OrderController extends Controller
     {
         return view('admin.orders.show', compact('order'));
     }
+
+    /**
+     * ========================================
+     * M-BANKING PAYMENT VERIFICATION METHODS
+     * ========================================
+     */
+
+    /**
+     * Verifikasi pembayaran M-Banking
+     */
+    public function verifyPayment(Order $order)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Validasi bahwa order menggunakan M-Banking
+            if ($order->payment_method !== 'mbanking') {
+                return redirect()->back()->with('error', 'Order ini bukan menggunakan M-Banking');
+            }
+
+            // Validasi ada bukti pembayaran
+            if (!$order->payment_proof) {
+                return redirect()->back()->with('error', 'Belum ada bukti pembayaran yang diupload');
+            }
+
+            // Update status pembayaran dan order
+            $order->update([
+                'payment_status' => 'settlement',
+                'status' => Order::STATUS_PAID, // "Dibayar"
+                'paid_at' => now()
+            ]);
+
+            DB::commit();
+
+            Log::info('M-Banking payment verified', [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'verified_by' => auth()->user()->name ?? 'admin',
+                'verified_at' => now()
+            ]);
+
+            return redirect()->back()->with('success', 'Pembayaran berhasil diverifikasi! Status order telah diupdate menjadi "Dibayar".');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            Log::error('Error verifying M-Banking payment', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memverifikasi pembayaran: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Tolak pembayaran M-Banking
+     */
+    public function rejectPayment(Order $order)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Validasi bahwa order menggunakan M-Banking
+            if ($order->payment_method !== 'mbanking') {
+                return redirect()->back()->with('error', 'Order ini bukan menggunakan M-Banking');
+            }
+
+            // Update status pembayaran
+            $order->update([
+                'payment_status' => 'deny',
+                'status' => Order::STATUS_CANCELLED, // "Dibatalkan"
+            ]);
+
+            DB::commit();
+
+            Log::info('M-Banking payment rejected', [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'rejected_by' => auth()->user()->name ?? 'admin',
+                'rejected_at' => now()
+            ]);
+
+            return redirect()->back()->with('success', 'Pembayaran ditolak. Status order telah diupdate menjadi "Dibatalkan".');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            Log::error('Error rejecting M-Banking payment', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menolak pembayaran: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Delete payment proof (opsional - jika admin ingin hapus bukti yang salah)
+     */
+    public function deletePaymentProof(Order $order)
+    {
+        try {
+            DB::beginTransaction();
+
+            if (!$order->payment_proof) {
+                return redirect()->back()->with('error', 'Tidak ada bukti pembayaran untuk dihapus');
+            }
+
+            // Hapus file dari storage
+            if (Storage::disk('public')->exists($order->payment_proof)) {
+                Storage::disk('public')->delete($order->payment_proof);
+            }
+
+            // Update order
+            $order->update([
+                'payment_proof' => null,
+                'payment_proof_uploaded_at' => null,
+                'payment_status' => 'pending'
+            ]);
+
+            DB::commit();
+
+            Log::info('Payment proof deleted', [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'deleted_by' => auth()->user()->name ?? 'admin'
+            ]);
+
+            return redirect()->back()->with('success', 'Bukti pembayaran berhasil dihapus');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            Log::error('Error deleting payment proof', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage()
+            ]);
+
+            return redirect()->back()->with('error', 'Gagal menghapus bukti pembayaran: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * ========================================
+     * EXISTING METHODS (UPDATED)
+     * ========================================
+     */
 
     /**
      * Update order status via AJAX - Fixed untuk handle Indonesian status
@@ -153,7 +304,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Update payment status secara manual
+     * Update payment status secara manual (dengan redirect untuk verifikasi bukti transfer)
      */
     public function updatePaymentStatus(Request $request, Order $order)
     {
@@ -205,27 +356,22 @@ class OrderController extends Controller
                 'updated_by' => auth()->user()->name ?? 'system'
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Payment status berhasil diupdate',
-                'payment_status' => $order->payment_status,
-                'order_status' => $order->status,
-                'payment_badge_class' => $order->getPaymentStatusBadgeClass(),
-                'status_badge_class' => $order->getStatusBadgeClass()
-            ]);
+            // Redirect ke halaman detail order dengan success message
+            return redirect()
+                ->route('admin.orders.show', $order)
+                ->with('success', 'Pembayaran berhasil diverifikasi! Status order telah diupdate.');
 
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Update payment status error', [
                 'error' => $e->getMessage(),
                 'order_id' => $order->id,
-                'payment_status' => $request->payment_status,
+                'payment_status' => $request->payment_status ?? null,
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal mengupdate payment status. Silakan coba lagi.'
-            ], 500);
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal memverifikasi pembayaran: ' . $e->getMessage());
         }
     }
 
@@ -316,10 +462,78 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Update order (untuk tracking number, dll)
+     */
+    public function update(Request $request, Order $order)
+    {
+        try {
+            DB::beginTransaction();
+            
+            $request->validate([
+                'tracking_number' => 'nullable|string|max:100',
+            ]);
+            
+            $updates = [];
+            
+            if ($request->filled('tracking_number')) {
+                $updates['tracking_number'] = $request->tracking_number;
+                
+                // Auto update status ke "Dikirim" jika tracking number ditambahkan
+                if ($order->status === 'Diproses' || $order->status === 'Dibayar') {
+                    $updates['status'] = Order::STATUS_SHIPPED;
+                    if (!$order->shipped_at) {
+                        $updates['shipped_at'] = now();
+                    }
+                }
+            }
+            
+            if (!empty($updates)) {
+                $order->update($updates);
+            }
+            
+            DB::commit();
+            
+            Log::info('Order updated', [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'updates' => $updates,
+                'updated_by' => auth()->user()->name ?? 'system'
+            ]);
+            
+            return redirect()
+                ->route('admin.orders.show', $order)
+                ->with('success', 'Data order berhasil diperbarui');
+                
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Update order error', [
+                'error' => $e->getMessage(),
+                'order_id' => $order->id
+            ]);
+            
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal memperbarui order: ' . $e->getMessage());
+        }
+    }
+
     public function destroy(Order $order)
     {
         try {
+            // Hapus bukti pembayaran jika ada
+            if ($order->payment_proof && Storage::disk('public')->exists($order->payment_proof)) {
+                Storage::disk('public')->delete($order->payment_proof);
+            }
+
             $order->delete();
+            
+            Log::info('Order deleted', [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'deleted_by' => auth()->user()->name ?? 'admin'
+            ]);
+
             return redirect()->route('admin.orders.index')->with('success', 'Order berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('Delete order error: ' . $e->getMessage());
@@ -410,12 +624,11 @@ class OrderController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            \Log::error('Midtrans Error: ' . $e->getMessage());
+            Log::error('Midtrans Error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal memproses pembayaran'
             ], 500);
         }
     }
-
 }

@@ -89,7 +89,7 @@
                                                 </a></li>
                                             <li><a class="dropdown-item update-status" href="#" data-order-id="{{ $order->id }}"
                                                     data-status="cancelled">
-                                                    <span class="badge bg-danger\\\">Dibatalkan</span>
+                                                    <span class="badge bg-danger">Dibatalkan</span>
                                                 </a></li>
                                             <li><a class="dropdown-item update-status" href="#" data-order-id="{{ $order->id }}"
                                                     data-status="refunded">
@@ -106,6 +106,11 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
+                                        <a href="{{ route('admin.orders.show', $order->id) }}" 
+                                           class="btn btn-sm btn-info text-white" 
+                                           title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                         <button class="btn btn-sm btn-danger" onclick="deleteOrder({{ $order->id }})"
                                             title="Delete Order">
                                             <i class="fas fa-trash"></i>

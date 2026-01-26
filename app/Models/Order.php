@@ -37,7 +37,9 @@ class Order extends Model
         'tracking_number',
         'shipped_at',
         'completed_at',
-        'midtrans_response'
+        'midtrans_response',
+        'payment_proof',
+        'payment_proof_uploaded_at',
     ];
 
     protected $casts = [
@@ -49,6 +51,7 @@ class Order extends Model
         'total_amount' => 'decimal:2',
         'subtotal' => 'decimal:2',
         'shipping_cost' => 'decimal:2',
+        'payment_proof_uploaded_at' => 'datetime',
     ];
 
     // Status constants - menggunakan bahasa Indonesia sesuai database
